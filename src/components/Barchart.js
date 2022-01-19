@@ -7,7 +7,7 @@ import { observer } from "mobx-react";
 
 const Barchart = observer(() => {
   const chartStore = useChartStore();
-  console.log(chartStore.data);
+  
   // const [data, setData] = useState([25, 30, 45, 60, 10, 65, 75]);
   const svgRef = useRef();
 
@@ -35,7 +35,7 @@ const Barchart = observer(() => {
     // create y-axis
     const yAxis = axisRight(yScale);
     svg.select(".y-axis").style("transform", "translateX(200px)").call(yAxis);
-
+    console.log(chartStore.data);
     // draw the bars
     svg
       .selectAll(".bar")
