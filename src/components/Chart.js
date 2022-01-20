@@ -8,7 +8,12 @@ import {
   scaleLinear,
 } from "d3";
 
-function Chart() {
+import { useChartStore } from "../context/ChartContext";
+
+import { observer } from "mobx-react";
+
+const Chart = observer(() => {
+  const chartStore = useChartStore();
   const [data, setData] = useState([25, 30, 45, 60, 20, 65, 75]);
   const svgRef = useRef();
 
@@ -16,13 +21,13 @@ function Chart() {
   useEffect(() => {
     const svg = select(svgRef.current);
     const xScale = scaleLinear()
-      .domain([0, data.length - 1])
+      .domain([0, chartStore.dataLine.length - 1])
       .range([0, 200]);
 
     const yScale = scaleLinear().domain([0, 100]).range([100, 0]);
 
     const xAxis = axisBottom(xScale)
-      .ticks(data.length)
+      .ticks(chartStore.dataLine.length)
       .tickFormat((index) => index + 1);
     svg.select(".x-axis").style("transform", "translateY(100px)").call(xAxis);
 
@@ -38,18 +43,31 @@ function Chart() {
     // renders path element, and attaches
     // the "d" attribute from line generator above
     svg
-      .selectAll(".line")
-      .data([data])
+      .select(".content")
+      .selectAll(".myLine")
+      .data([chartStore.dataLine])
       .join("path")
-      .attr("class", "line")
-      .attr("d", myLine)
+      .attr("class", "myLine")
+      .attr("stroke", "black")
       .attr("fill", "none")
-      .attr("stroke", "blue");
-  }, [data]);
+      .attr("d", myLine);
+    svg
+      .select(".content")
+      .selectAll(".myDot")
+      .data(chartStore.dataLine)
+      .join("circle")
+      .attr("class", "myDot")
+      .attr("stroke", "black")
+      .attr("r", 4)
+      .attr("fill", "orange")
+      .attr("cx", (value, index) => xScale(index))
+      .attr("cy", yScale);
+  }, [chartStore.dataLine]);
 
   return (
     <React.Fragment>
       <svg ref={svgRef}>
+        <g className="content" />
         <g className="x-axis" />
         <g className="y-axis" />
       </svg>
@@ -57,14 +75,11 @@ function Chart() {
       <br />
       <br />
       <br />
-      <button onClick={() => setData(data.map((value) => value + 5))}>
-        Update data
-      </button>
-      <button onClick={() => setData(data.filter((value) => value < 35))}>
-        Filter data
-      </button>
+      <button onClick={() => chartStore.updateLine()}>Update data</button>
+      <button onClick={() => chartStore.filterLine()}>Filter data</button>
+      <button onClick={() => chartStore.addLine()}>Add data</button>
     </React.Fragment>
   );
-}
+});
 
 export default Chart;

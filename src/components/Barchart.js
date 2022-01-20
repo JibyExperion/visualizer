@@ -7,7 +7,7 @@ import { observer } from "mobx-react";
 
 const Barchart = observer(() => {
   const chartStore = useChartStore();
-  
+
   // const [data, setData] = useState([25, 30, 45, 60, 10, 65, 75]);
   const svgRef = useRef();
 

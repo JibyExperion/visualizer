@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import Pie from "./Pie";
+import { useChartStore } from "../context/ChartContext";
 
-function Chartpie() {
+import { observer } from "mobx-react";
+
+const Chartpie = observer(() => {
+  const chartStore = useChartStore();
   const [data, setData] = useState([
     {
       name: "apples",
@@ -19,31 +23,12 @@ function Chartpie() {
 
   return (
     <React.Fragment>
-      <Pie data={data} />
+      <Pie data={chartStore.pieData} />
       <br />
       <br />
-      <button
-        onClick={() => {
-          setData([
-            {
-              name: "apples",
-              value: Math.round(Math.random() * 100),
-            },
-            {
-              name: "bananas",
-              value: Math.round(Math.random() * 200),
-            },
-            {
-              name: "cherries",
-              value: Math.round(Math.random() * 300),
-            },
-          ]);
-        }}
-      >
-        Randomize
-      </button>
+      <button onClick={() => chartStore.randomize()}>Randomize</button>
     </React.Fragment>
   );
-}
+});
 
 export default Chartpie;

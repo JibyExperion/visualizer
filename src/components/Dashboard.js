@@ -9,6 +9,7 @@ import Chartpie from "./Chartpie";
 import Vischart from "./Vischart";
 import Todo from "./Todo";
 import Geo from "./Geo";
+import Racingbar from "./Racingbar";
 import { TodoProvider } from "../context/todoContext";
 import { ChartProvider } from "../context/ChartContext";
 ChartJS.register(ArcElement, Tooltip, Legend);
@@ -183,23 +184,23 @@ const Dashboard = () => {
       <h2 className="sub-header mt-5">Visualization</h2>
       <div className="mb-3">
         <div className="card-deck">
-          <div className="card card-inverse card-success text-center">
-            <div className="card-body">
-              <Chart />
+          <ChartProvider>
+            <div className="card card-inverse card-success text-center">
+              <div className="card-body">
+                <Chart />
+              </div>
             </div>
-          </div>
-          <div className="card card-inverse card-danger text-center">
-            <div className="card-body">
-              <ChartProvider>
+            <div className="card card-inverse card-danger text-center">
+              <div className="card-body">
                 <Barchart />
-              </ChartProvider>
+              </div>
             </div>
-          </div>
-          <div className="card card-inverse card-warning text-center">
-            <div className="card-body">
-              <Chartpie />
+            <div className="card card-inverse card-warning text-center">
+              <div className="card-body">
+                <Chartpie />
+              </div>
             </div>
-          </div>
+          </ChartProvider>
           <div className="card card-inverse card-info text-center">
             <div className="card-body">
               <Vischart />
@@ -347,6 +348,21 @@ const Dashboard = () => {
           <h4 className="card-title">WorldMap</h4>
           <p className="card-text">
             <Geo />
+          </p>
+        </div>
+        <div className="card card-body">
+          <p className="card-text">
+            <Racingbar />
+          </p>
+        </div>
+        <div class="card card-body">
+          <h4 class="card-title">Heading</h4>
+          <p class="card-text">
+            So now that you've seen some of what Bootstrap 4 has to offer, are
+            you going to give it a try?
+          </p>
+          <p class="card-text">
+            <small class="text-muted">Last updated 12 mins ago</small>
           </p>
         </div>
       </div>
